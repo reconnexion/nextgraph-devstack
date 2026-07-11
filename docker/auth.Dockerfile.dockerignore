@@ -1,0 +1,9 @@
+.git
+**/target
+**/node_modules
+**/dist
+**/dist-web
+**/dist.tar.gz
+sdk/js/lib-wasm/pkg
+sdk/js/lib-wasm/pkg-node
+sdk/js/lib-wasm/web

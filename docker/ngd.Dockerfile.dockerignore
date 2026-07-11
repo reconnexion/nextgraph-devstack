@@ -1,0 +1,18 @@
+# Allow everything:
+*
+# Then disallow all but those:
+!nextgraph-rs
+!async-tungstenite
+!rust-rocksdb
+!docker/cargo.config.toml
+!docker/provision.rs
+# Then ignore again all those:
+**/.git
+**/target
+**/node_modules
+**/dist
+**/dist-web
+**/dist.tar.gz
+nextgraph-rs/sdk/js/lib-wasm/pkg
+nextgraph-rs/sdk/js/lib-wasm/pkg-node
+nextgraph-rs/sdk/js/lib-wasm/web

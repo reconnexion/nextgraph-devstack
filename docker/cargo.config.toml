@@ -1,0 +1,35 @@
+[build]
+jobs = 3
+[profile.dev]
+codegen-units = 4
+# Keep it on for wasm, because of cargo bug
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["--cap-lints=allow"]
+[target.wasm32-unknown-unknown]
+rustflags = ['--cfg', 'getrandom_backend="wasm_js"']
+
+# Disable at-rest encryption, on purpose, for both release and debug builds: this
+# is a dev image and we want both flavors to be able to open the same data store.
+["package.engine/storage-rocksdb"]
+features = []
+no-default-features = true
+
+[patch.crates-io]
+nextgraph = { path = "/ng/nextgraph-rs/sdk/rust" }
+ng-sdk-python = { path = "/ng/nextgraph-rs/sdk/python" }
+ng-broker = { path = "/ng/nextgraph-rs/engine/broker" }
+ng-client-ws = { path = "/ng/nextgraph-rs/engine/client-ws" }
+ng-net = { path = "/ng/nextgraph-rs/engine/net" }
+ng-oxigraph = { path = "/ng/nextgraph-rs/engine/oxigraph" }
+ng-repo = { path = "/ng/nextgraph-rs/engine/repo" }
+ng-storage-rocksdb = { path = "/ng/nextgraph-rs/engine/storage-rocksdb" }
+ng-verifier = { path = "/ng/nextgraph-rs/engine/verifier" }
+ng-wallet = { path = "/ng/nextgraph-rs/engine/wallet" }
+ngcli = { path = "/ng/nextgraph-rs/bin/ngcli" }
+ngd = { path = "/ng/nextgraph-rs/bin/ngd" }
+
+# For those sources defined to track git:
+[patch."https://git.nextgraph.org/rixed/async-tungstenite.git"]
+ng-async-tungstenite = { path = "/ng/async-tungstenite" }
+[patch."https://git.nextgraph.org/rixed/rust-rocksdb.git"]
+ng-rocksdb = { path = "/ng/rust-rocksdb" }

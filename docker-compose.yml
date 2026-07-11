@@ -1,0 +1,78 @@
+# Local NextGraph development stack for working on ngd/ngcli, the WASM engine,
+# the app-side SDK, and third-party apps. See docker/README.md for the workflow.
+#
+# The public https://nextgraph.net is used for the redirect trampoline and
+# the ng_bootstrap registry (it accepts localhost:14400 brokers by design).
+#
+# Everything runs with network_mode: host:
+#   - ngd (broker):                 http://localhost:14400 (must be 14400)
+#   - auth page (behind ngd proxy): http://localhost:14401 (only via ngd)
+#   - demo app:                     http://localhost:8080
+#
+# All is built from the LOCAL checkouts from https://git.nextgraph.org/rixed in:
+# - ./nextgraph-rs (branch main)
+# - ./async-tungstenite (branch nextgraph)
+# - ./rust-rocksdb (branch master)
+
+services:
+  # ngd/ngcli that we all know and love. Pure rust.
+  ngd:
+    build:
+      context: .
+      dockerfile: docker/ngd.Dockerfile
+      target: ngd
+    # Nextgraph protections agains various attacks are implemented in such
+    # a way as making any NAT impossible, thus the "host" mode:
+    network_mode: host
+    environment:
+      # proxy all non-websocket, non-/.ng_bootstrap requests to the auth
+      # service on localhost:14401 instead of serving the embedded (stubbed)
+      # front-ends
+      NG_DEV3: "1"
+    # Clear it with `docker compose down -v` to restart from scratch:
+    volumes:
+      - ngd-data:/data
+    restart: unless-stopped
+
+  # All the web stuff asked to ngd on 14400 but the WS will be proxied to
+  # this: the wallet-unlock (auth) service as well as the associated assets.
+  # Server by nginx (rather than `vite dev`).
+  auth:
+    build:
+      context: nextgraph-rs
+      dockerfile: ../docker/auth.Dockerfile
+    network_mode: host
+    restart: unless-stopped
+
+  # The user facing app (in this example, the nextgraph-refine-app).
+  # Also served by ngnx.
+  app:
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+      additional_contexts:
+        ngrepo: ./nextgraph-rs
+    network_mode: host
+    restart: unless-stopped
+
+  # One-shot account/wallet provisioning (not started by `up`):
+  #   docker compose run --rm -e NG_USER=user5 -e NG_PASS=secret provision
+  # writes ./wallets/<NG_USER>.ngw, to be imported once per browser at
+  # http://localhost:14400/auth/
+  provision:
+    build:
+      context: .
+      dockerfile: docker/ngd.Dockerfile
+      target: provision
+    network_mode: host
+    profiles: ["provision"]
+    depends_on:
+      - ngd
+    volumes:
+      - ./wallets:/wallets
+      # share the ngd volume so the first (admin) user's provisioning can drop
+      # an ngcli config into /data/client for `docker exec ngd ngcli ...`
+      - ngd-data:/data
+
+volumes:
+  ngd-data:
