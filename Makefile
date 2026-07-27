@@ -1,7 +1,7 @@
 .PHONY: build up down reset provision provision-more push ngcli-run
 PROJECT = ng-dev
 COMPOSE = docker compose -p $(PROJECT)
-DOCKER_REGISTRY ?= ghcr.io/rixed
+DOCKER_REGISTRY ?= ghcr.io/reconnexion
 
 all: help
 
