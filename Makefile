@@ -10,6 +10,7 @@ help:
 	@echo '  - help: This'
 	@echo
 	@echo '  - build: Build all docker images.'
+	@echo '  - pull: alternatively, pull images from $(DOCKER_REGISTRY).'
 	@echo '  - up: Start (or update) the docker compose stack (project name: ng-dev)'
 	@echo '  - down: Stop the docker compose stack'
 	@echo '  - reset: Stop the docker compose stack and delete the volumes'
@@ -25,6 +26,9 @@ build:
 	$(COMPOSE) build --progress=plain provision
 	$(COMPOSE) build --progress=plain auth
 	$(COMPOSE) build --progress=plain app
+
+pull:
+	$(COMPOSE) pull
 
 up:
 	$(COMPOSE) up --detach
@@ -51,7 +55,6 @@ reset:
 push:
 	@for img_suf in ngd auth app provision; do \
 	  img="ng-dev-$$img_suf"; \
-	  docker tag "$$img" "$(DOCKER_REGISTRY)/$$img" && \
 	  docker image push "$(DOCKER_REGISTRY)/$$img" ;\
 	done
 

@@ -17,6 +17,7 @@
 services:
   # ngd/ngcli that we all know and love. Pure rust.
   ngd:
+    image: ghcr.io/reconnexion/ng-dev-ngd
     build:
       context: .
       dockerfile: docker/ngd.Dockerfile
@@ -38,6 +39,7 @@ services:
   # this: the wallet-unlock (auth) service as well as the associated assets.
   # Server by nginx (rather than `vite dev`).
   auth:
+    image: ghcr.io/reconnexion/ng-dev-auth
     build:
       context: nextgraph-rs
       dockerfile: ../docker/auth.Dockerfile
@@ -47,6 +49,7 @@ services:
   # The user facing app (in this example, the nextgraph-refine-app).
   # Also served by ngnx.
   app:
+    image: ghcr.io/reconnexion/ng-dev-app
     build:
       context: .
       dockerfile: docker/app.Dockerfile
@@ -60,6 +63,7 @@ services:
   # writes ./wallets/<NG_USER>.ngw, to be imported once per browser at
   # http://localhost:14400/auth/
   provision:
+    image: ghcr.io/reconnexion/ng-dev-provision
     build:
       context: .
       dockerfile: docker/ngd.Dockerfile
