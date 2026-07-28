@@ -33,7 +33,7 @@ pull:
 up:
 	$(COMPOSE) up --detach
 
-APP_SITE=http://localhost:4173/
+APP_SITE=http://localhost:8080/
 provision:
 	@NG_INVITE=$$($(COMPOSE) logs ngd | grep -o 'http://localhost:14400/#/i/[A-Za-z0-9_-]*' | tail -1); \
 	if test -n "$$NG_INVITE"; then \
