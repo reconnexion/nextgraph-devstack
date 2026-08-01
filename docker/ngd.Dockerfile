@@ -25,7 +25,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY nextgraph-rs /ng/nextgraph-rs/
 COPY async-tungstenite /ng/async-tungstenite/
-COPY rust-rocksdb /ng/rust-rocksdb/
 
 WORKDIR /ng/nextgraph-rs
 COPY docker/cargo.config.toml .cargo/config.toml

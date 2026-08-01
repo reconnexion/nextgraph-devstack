@@ -12,7 +12,6 @@
 # All is built from the LOCAL checkouts from https://git.nextgraph.org/rixed in:
 # - ./nextgraph-rs (branch main)
 # - ./async-tungstenite (branch nextgraph)
-# - ./rust-rocksdb (branch master)
 
 services:
   # ngd/ngcli that we all know and love. Pure rust.

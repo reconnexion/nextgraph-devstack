@@ -31,5 +31,3 @@ ngd = { path = "/ng/nextgraph-rs/bin/ngd" }
 # For those sources defined to track git:
 [patch."https://git.nextgraph.org/rixed/async-tungstenite.git"]
 ng-async-tungstenite = { path = "/ng/async-tungstenite" }
-[patch."https://git.nextgraph.org/rixed/rust-rocksdb.git"]
-ng-rocksdb = { path = "/ng/rust-rocksdb" }
