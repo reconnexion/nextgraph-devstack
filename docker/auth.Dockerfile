@@ -34,16 +34,6 @@ WORKDIR /ng
 COPY . .
 RUN rm -rf .cargo
 
-# Fix (skipped if your branch already has it): gate API calls on the WASM
-# worker being ready. Upstream posts RPC messages to the worker immediately;
-# the worker only installs its onmessage handler after the async WASM
-# import, so a call made too early can be silently dropped and the page
-# hangs on its splash screen.
-RUN if grep -q 'function call_sdk(method:string, args?: any) {' sdk/js/api-web/main.ts; then \
-        sed -i 's|function call_sdk(method:string, args?: any) {|async function call_sdk(method:string, args?: any) {\n    await worker_ready;|' sdk/js/api-web/main.ts \
-        && grep -q 'await worker_ready;' sdk/js/api-web/main.ts; \
-    fi
-
 # The WASM engine (profiling flavor, same as upstream's dev3 scripts)
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/usr/local/cargo/git \
