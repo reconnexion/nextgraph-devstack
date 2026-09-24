@@ -43,7 +43,7 @@ RUN printf '<html><body>This ngd does not serve the web app (see docker/README.m
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/usr/local/cargo/git \
     --mount=type=cache,id=ngd-target,target=/ng/nextgraph-rs/target \
-    cargo build -p ngd -p ngcli \
+    cargo build -p ngd -p ngcli --features ng-broker/usage-stats,ng-net/usage-stats \
     && cp target/debug/ngd target/debug/ngcli /
 
 # ---- provision helper ----------------------------------------------------
