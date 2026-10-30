@@ -1,0 +1,14 @@
+{
+  "name": "service-plugin-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@ng-org/nextgraph": "link:../nextgraph-rs/sdk/js/lib-wasm/pkg-node"
+  }
+}

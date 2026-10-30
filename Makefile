@@ -26,6 +26,7 @@ build:
 	$(COMPOSE) build --progress=plain provision
 	$(COMPOSE) build --progress=plain auth
 	$(COMPOSE) build --progress=plain app
+	$(COMPOSE) build --progress=plain admin-app
 
 pull:
 	$(COMPOSE) pull
@@ -53,7 +54,7 @@ reset:
 	$(COMPOSE) down -v
 
 push:
-	@for img_suf in ngd auth app provision; do \
+	@for img_suf in ngd auth app provision demo-admin; do \
 	  img="ng-dev-$$img_suf"; \
 	  docker image push "$(DOCKER_REGISTRY)/$$img" ;\
 	done

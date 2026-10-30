@@ -11,3 +11,10 @@
 	path = nextgraph-refine-app
 	url = git@github.com:reconnexion/nextgraph-refine-app.git
 	branch = master
+[submodule "activitypub-service"]
+	path = activitypub-service
+	url = https://git.nextgraph.org/NextGraph/activitypub-service.git
+	branch = main
+[submodule "nextgraph-admin-app"]
+	path = nextgraph-admin-app
+	url = git@github.com:reconnexion/nextgraph-admin-app.git

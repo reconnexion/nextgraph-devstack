@@ -29,6 +29,7 @@ services:
       # service on localhost:14401 instead of serving the embedded (stubbed)
       # front-ends
       NG_DEV3: "1"
+      RUST_LOG: "debug"
     # Clear it with `docker compose down -v` to restart from scratch:
     volumes:
       - ngd-data:/data
@@ -76,6 +77,16 @@ services:
       # share the ngd volume so the first (admin) user's provisioning can drop
       # an ngcli config into /data/client for `docker exec ngd ngcli ...`
       - ngd-data:/data
+
+  admin-app:
+    image: ghcr.io/reconnexion/ng-dev-demo-admin
+    build:
+      context: nextgraph-admin-app
+      dockerfile: docker/Dockerfile
+      additional_contexts:
+        ngrepo: ./nextgraph-rs
+    network_mode: host
+    restart: unless-stopped
 
 volumes:
   ngd-data:
