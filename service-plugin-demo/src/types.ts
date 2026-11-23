@@ -5,8 +5,3 @@ export function assertIsPluginStatus(s: unknown): asserts s is PluginStatus {
     throw new Error('TODO: go back in time and murder the inventor of runtime type checking')
   }
 }
-
-export type KeyPair = {
-  public: string
-  private: string
-}

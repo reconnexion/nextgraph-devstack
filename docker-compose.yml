@@ -79,13 +79,28 @@ services:
       - ngd-data:/data
 
   admin-app:
-    image: ghcr.io/reconnexion/ng-dev-demo-admin
+    image: ghcr.io/reconnexion/ng-dev-admin-demo
     build:
       context: nextgraph-admin-app
       dockerfile: docker/Dockerfile
       additional_contexts:
         ngrepo: ./nextgraph-rs
     network_mode: host
+    restart: unless-stopped
+
+  # The demo service plugin, registering itself to ngd as "demo-plugin".
+  # It reads ngd's peer-id from ngd itself (unless NGD_PEER_ID is set).
+  plugin-demo:
+    image: ghcr.io/reconnexion/ng-dev-plugin-demo
+    build:
+      context: .
+      dockerfile: docker/plugin.Dockerfile
+    network_mode: host
+    depends_on:
+      - ngd
+    environment:
+      # Static peer key of this plugin (from `ngcli gen-key`):
+      PLUGIN_PRIVKEY: 9dZUR3kusGrBw18eFejQCwMyGuFGvXc2HqdzcBfXJLoA
     restart: unless-stopped
 
 volumes:

@@ -27,6 +27,7 @@ build:
 	$(COMPOSE) build --progress=plain auth
 	$(COMPOSE) build --progress=plain app
 	$(COMPOSE) build --progress=plain admin-app
+	$(COMPOSE) build --progress=plain plugin-demo
 
 pull:
 	$(COMPOSE) pull
@@ -34,7 +35,10 @@ pull:
 up:
 	$(COMPOSE) up --detach
 
-APP_SITE=http://localhost:4174/
+ADMIN_SITE=http://localhost:4173/
+SHELL_SITE=http://localhost:4174/
+APP_SITE=$(ADMIN_SITE)
+
 provision:
 	@NG_INVITE=$$($(COMPOSE) logs ngd | grep -o 'http://localhost:14400/#/i/[A-Za-z0-9_-]*' | tail -1); \
 	if test -n "$$NG_INVITE"; then \
@@ -54,7 +58,7 @@ reset:
 	$(COMPOSE) down -v
 
 push:
-	@for img_suf in ngd auth app provision demo-admin; do \
+	@for img_suf in ngd auth app provision admin-demo plugin-demo; do \
 	  img="ng-dev-$$img_suf"; \
 	  docker image push "$(DOCKER_REGISTRY)/$$img" ;\
 	done

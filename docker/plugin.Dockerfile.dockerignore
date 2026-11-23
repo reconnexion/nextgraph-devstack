@@ -1,0 +1,20 @@
+# Paths are relative to the build context (the repository root).
+# Ignore everything:
+*
+# Then allow only those:
+!nextgraph-rs
+!service-plugin-demo/package.json
+!service-plugin-demo/yarn.lock
+!service-plugin-demo/tsconfig.json
+!service-plugin-demo/src
+!service-plugin-demo/ngd-peer-id.mjs
+# Then ignore again those:
+**/.git
+**/target
+**/node_modules
+**/dist
+**/dist-web
+**/dist.tar.gz
+nextgraph-rs/sdk/js/lib-wasm/pkg
+nextgraph-rs/sdk/js/lib-wasm/pkg-node
+nextgraph-rs/sdk/js/lib-wasm/web

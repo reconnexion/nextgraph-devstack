@@ -5,7 +5,6 @@ YARN=.yarn/releases/yarn-1.22.22.cjs
 SOURCES = \
 	utils.ts \
 	types.ts \
-	keys.ts \
 	handler.ts \
 	main.ts
 
@@ -30,10 +29,13 @@ $(JS_FILES) &: $(addprefix src/, $(SOURCES)) $(YARN)
 
 build: $(JS_FILES)
 
+# Not the key of the docker-compose plugin-demo, so that both can run at once:
+PLUGIN_PRIVKEY ?= foSaUx9WBoNhu0JjlcqPDgEdFsZy5nDA_bPZqdnt7mkA
+
 # Note: ngd should write this peed-id in some world-readable file
 run: $(JS_FILES)
 	NGD_PEER_ID=$$(docker logs ng-dev-ngd-1 2>&1 | head -9 | sed -ne 's/^.*PeerId of node: \(.*\)$$/\1/p') \
-	NGCLI=../nextgraph-rs/target/debug/ngcli \
+	PLUGIN_PRIVKEY=$(PLUGIN_PRIVKEY) \
 	node dist/main.js
 
 clean:

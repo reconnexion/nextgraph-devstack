@@ -4,23 +4,25 @@ type Response = any // TODO
 
 let currentStatus: PluginStatus = "Waiting"
 
-function updateStatus(status: PluginStatus) {
+export function updateStatus(status: PluginStatus) {
   if (currentStatus != status) {
     console.info('New status: ', status)
     currentStatus = status
   }
 }
 
-export function msgHandler(msg: any, sender: any): Response {
-  console.log('msgHandler: got msg=', msg, ' and sender=', sender)
-  switch (sender) {
-    case "Broker":
-      /* We have a new status */
-      assertIsPluginStatus(msg)
-      updateStatus(msg)
-      return { ok: true }
-    default:
-      // TODO
-      return { ok: true, data: 42 }
+// Requests from users ({User: id}) or other plugins ({Plugin: name}):
+export function requestHandler(caller: any, serviceName: string, request: any): Response {
+  console.log('requestHandler: got request=', request, 'for', serviceName, 'from', caller)
+  // TODO
+  return { ok: true, data: 42 }
+}
+
+// Notifications from the broker, such as {StatusChange: "Enabled"}:
+export function notifyHandler(serviceName: string, notification: any): void {
+  console.log('notifyHandler: got notification=', notification, 'for', serviceName)
+  if ('StatusChange' in notification) {
+    assertIsPluginStatus(notification.StatusChange)
+    updateStatus(notification.StatusChange)
   }
 }
