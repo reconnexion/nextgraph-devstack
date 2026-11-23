@@ -9,8 +9,8 @@
 #   - auth page (behind ngd proxy): http://localhost:14401 (only via ngd)
 #   - demo app:                     http://localhost:8080
 #
-# All is built from the LOCAL checkouts from https://git.nextgraph.org/rixed in:
-# - ./nextgraph-rs (branch main)
+# All is built from the LOCAL checkouts from https://github.com/reconnexion in:
+# - ./nextgraph-rs (repo nextgraph, branch main)
 # - ./async-tungstenite (branch nextgraph)
 
 services:

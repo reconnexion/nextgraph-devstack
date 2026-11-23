@@ -23,6 +23,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && npm install -g pnpm@10.15.0
 
+# git.nextgraph.org is unreliable: fetch its repos from the GitHub backups
+# instead. Cargo.lock is unaffected (same source URLs and revisions); cargo
+# must use the git CLI for the rewrite to apply.
+COPY <<'EOF' /etc/gitconfig
+[url "https://github.com/reconnexion/"]
+	insteadOf = https://git.nextgraph.org/NextGraph/
+	insteadOf = https://git.nextgraph.org/rixed/
+EOF
+ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
+
 # NextGraph requires its own fork of wasm-pack (see DEV.md)
 RUN cargo install wasm-pack --git https://git.nextgraph.org/NextGraph/wasm-pack.git --branch master --locked
 

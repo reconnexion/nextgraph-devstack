@@ -23,6 +23,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         clang libclang-dev pkg-config libssl-dev git ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
+# git.nextgraph.org is unreliable: fetch its repos from the GitHub backups
+# instead. Cargo.lock is unaffected (same source URLs and revisions); cargo
+# must use the git CLI for the rewrite to apply.
+COPY <<'EOF' /etc/gitconfig
+[url "https://github.com/reconnexion/"]
+	insteadOf = https://git.nextgraph.org/NextGraph/
+	insteadOf = https://git.nextgraph.org/rixed/
+EOF
+ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
+
 COPY nextgraph-rs /ng/nextgraph-rs/
 COPY async-tungstenite /ng/async-tungstenite/
 

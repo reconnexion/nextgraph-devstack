@@ -1,11 +1,10 @@
 [submodule "nextgraph-rs"]
 	path = nextgraph-rs
-	url = https://git.nextgraph.org/rixed/nextgraph-rs.git
-  url = git@git.nextgraph.org:rixed/nextgraph-rs.git
+	url = https://github.com/reconnexion/nextgraph.git
 	branch = main
 [submodule "async-tungstenite"]
 	path = async-tungstenite
-	url = git@git.nextgraph.org:rixed/async-tungstenite.git
+	url = https://github.com/reconnexion/async-tungstenite.git
 	branch = nextgraph
 [submodule "nextgraph-refine-app"]
 	path = nextgraph-refine-app
